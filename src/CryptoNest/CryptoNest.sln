@@ -8,6 +8,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{4C7B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{276B6A1D-20E8-41B2-BC37-6FA31F767A13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{06FA0D29-19C5-42E2-99B0-178BB4EFDAEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNest.Shared.Infrastructure", "Shared\CryptoNest.Shared.Infrastructure\CryptoNest.Shared.Infrastructure.csproj", "{D49D4B8A-D9B9-4BDE-92B6-61909D1160F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNest.Shared.Abstractions", "Shared\CryptoNest.Shared.Abstractions\CryptoNest.Shared.Abstractions.csproj", "{F40F8713-2BD1-4ED1-9416-B1308D05B8CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNest.Modules.UserManagement", "Modules\CryptoNest.Modules.UserManagement\CryptoNest.Modules.UserManagement.csproj", "{CD72839A-8502-4C62-871F-073A90716E6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNest.Modules.CryptoListing", "Modules\CryptoNest.Modules.CryptoListing\CryptoNest.Modules.CryptoListing.csproj", "{5CB646C3-2359-4CA9-A12E-AC3F5699BAE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,8 +28,28 @@ Global
 		{BA71B815-5576-4323-A637-F5CE32BF5523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA71B815-5576-4323-A637-F5CE32BF5523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA71B815-5576-4323-A637-F5CE32BF5523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D49D4B8A-D9B9-4BDE-92B6-61909D1160F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49D4B8A-D9B9-4BDE-92B6-61909D1160F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49D4B8A-D9B9-4BDE-92B6-61909D1160F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49D4B8A-D9B9-4BDE-92B6-61909D1160F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F40F8713-2BD1-4ED1-9416-B1308D05B8CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40F8713-2BD1-4ED1-9416-B1308D05B8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40F8713-2BD1-4ED1-9416-B1308D05B8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40F8713-2BD1-4ED1-9416-B1308D05B8CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD72839A-8502-4C62-871F-073A90716E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD72839A-8502-4C62-871F-073A90716E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD72839A-8502-4C62-871F-073A90716E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD72839A-8502-4C62-871F-073A90716E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB646C3-2359-4CA9-A12E-AC3F5699BAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB646C3-2359-4CA9-A12E-AC3F5699BAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB646C3-2359-4CA9-A12E-AC3F5699BAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB646C3-2359-4CA9-A12E-AC3F5699BAE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BA71B815-5576-4323-A637-F5CE32BF5523} = {0B4677CD-5CE1-48E3-B413-6CEEAFABFFBC}
+		{D49D4B8A-D9B9-4BDE-92B6-61909D1160F9} = {276B6A1D-20E8-41B2-BC37-6FA31F767A13}
+		{F40F8713-2BD1-4ED1-9416-B1308D05B8CE} = {276B6A1D-20E8-41B2-BC37-6FA31F767A13}
+		{CD72839A-8502-4C62-871F-073A90716E6B} = {4C7B0FF0-DB68-4D3D-AA81-831854100CC4}
+		{5CB646C3-2359-4CA9-A12E-AC3F5699BAE2} = {4C7B0FF0-DB68-4D3D-AA81-831854100CC4}
 	EndGlobalSection
 EndGlobal
