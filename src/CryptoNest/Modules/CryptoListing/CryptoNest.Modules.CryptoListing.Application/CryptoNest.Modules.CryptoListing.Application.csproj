@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CryptoNest.Modules.CryptoListing.Domain\CryptoNest.Modules.CryptoListing.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
