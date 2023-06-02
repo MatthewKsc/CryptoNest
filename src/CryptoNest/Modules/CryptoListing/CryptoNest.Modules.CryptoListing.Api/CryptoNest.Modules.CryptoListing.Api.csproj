@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CryptoNest.Shared.Abstractions\CryptoNest.Shared.Abstractions.csproj" />
+      <ProjectReference Include="..\CryptoNest.Modules.CryptoListing.Infrastructure\CryptoNest.Modules.CryptoListing.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
