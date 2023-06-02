@@ -2,8 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CryptoNest.Shared.Abstractions\CryptoNest.Shared.Abstractions.csproj" />
+    </ItemGroup>
 
 </Project>
