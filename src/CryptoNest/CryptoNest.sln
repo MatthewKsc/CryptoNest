@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bootstrapper", "Bootstrapper", "{0B4677CD-5CE1-48E3-B413-6CEEAFABFFBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNest.Boostrapper", "Bootstrapper\CryptoNest.Boostrapper\CryptoNest.Boostrapper.csproj", "{BA71B815-5576-4323-A637-F5CE32BF5523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoNest.Bootstrapper", "Bootstrapper\CryptoNest.Bootstrapper\CryptoNest.Bootstrapper.csproj", "{BA71B815-5576-4323-A637-F5CE32BF5523}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{4C7B0FF0-DB68-4D3D-AA81-831854100CC4}"
 EndProject
