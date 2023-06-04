@@ -9,4 +9,15 @@
       <ProjectReference Include="..\CryptoNest.Modules.CryptoListing.Infrastructure\CryptoNest.Modules.CryptoListing.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="module.cryptolisting.json" />
+      <Content Include="module.cryptolisting.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="module.cryptolisting.development.json" />
+      <Content Include="module.cryptolisting.development.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
