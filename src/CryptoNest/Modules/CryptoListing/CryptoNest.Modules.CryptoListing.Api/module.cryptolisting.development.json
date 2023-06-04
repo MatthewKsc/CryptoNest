@@ -1,0 +1,8 @@
+{
+  "cryptolisting" : {
+    "module" : {
+      "name": "CryptoListing",
+      "enabled": true
+    }
+  }
+}
