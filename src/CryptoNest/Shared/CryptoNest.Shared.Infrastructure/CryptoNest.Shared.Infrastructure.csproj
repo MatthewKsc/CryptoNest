@@ -8,4 +8,8 @@
       <ProjectReference Include="..\CryptoNest.Shared.Abstractions\CryptoNest.Shared.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
 </Project>
