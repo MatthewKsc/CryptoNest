@@ -7,7 +7,9 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args)
     .ConfigureModules();
 
 builder.ConfigureInfrastructure();
+
 builder.RegisterModules();
+builder.Services.AddInfrastructure();
 
 WebApplication app = builder.Build();
 

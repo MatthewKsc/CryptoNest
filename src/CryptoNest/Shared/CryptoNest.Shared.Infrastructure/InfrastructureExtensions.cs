@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using CryptoNest.Shared.Infrastructure.CoinMarketCap;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly:InternalsVisibleTo("CryptoNest.Bootstrapper")]
@@ -14,8 +16,12 @@ internal static class InfrastructureExtensions
 
         return builder;
     }
+    
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddHttpClient();
+        services.AddHostedService<CryptoInfoSync>();
+        
         return services;
     }
 
