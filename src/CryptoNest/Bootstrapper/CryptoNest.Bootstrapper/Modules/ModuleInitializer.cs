@@ -17,7 +17,7 @@ internal static class ModuleInitializer
 
         foreach (IModule module in modules)
         {
-            module.Register(builder.Services);
+            module.Register(builder.Services, builder.Configuration);
         }
 
         return builder;

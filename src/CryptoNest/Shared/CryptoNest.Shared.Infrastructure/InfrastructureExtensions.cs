@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using CryptoNest.Shared.Infrastructure.CoinMarketCap;
+using CryptoNest.Shared.Infrastructure.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,16 +12,15 @@ internal static class InfrastructureExtensions
 {
     public static WebApplicationBuilder ConfigureInfrastructure(this WebApplicationBuilder builder)
     {
-        IConfiguration coinMarketCapConfiguration = builder.Configuration.GetSection("CoinMarketCapApi");
-        builder.Services.Configure<CoinMarketCapOptions>(coinMarketCapConfiguration);
+        builder.AddCoinMarketCapExtensions();
+        builder.AddSqlServerConfiguration();
 
         return builder;
     }
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services.AddHttpClient();
-        services.AddHostedService<CryptoInfoSync>();
+        services.AddCoinMarketCap();
         
         return services;
     }
