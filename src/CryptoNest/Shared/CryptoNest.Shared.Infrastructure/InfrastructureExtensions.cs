@@ -12,7 +12,7 @@ internal static class InfrastructureExtensions
 {
     public static WebApplicationBuilder ConfigureInfrastructure(this WebApplicationBuilder builder)
     {
-        builder.AddCoinMarketCapExtensions();
+        builder.AddCoinMarketCapConfiguration();
         builder.AddSqlServerConfiguration();
 
         return builder;

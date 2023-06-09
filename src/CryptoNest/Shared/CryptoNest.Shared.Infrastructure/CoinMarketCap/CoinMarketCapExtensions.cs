@@ -7,7 +7,7 @@ namespace CryptoNest.Shared.Infrastructure.CoinMarketCap;
 
 internal static class CoinMarketCapExtensions
 {
-    internal static WebApplicationBuilder AddCoinMarketCapExtensions(this WebApplicationBuilder builder)
+    internal static WebApplicationBuilder AddCoinMarketCapConfiguration(this WebApplicationBuilder builder)
     {
         IConfiguration coinMarketCapConfiguration = builder.Configuration.GetSection("CoinMarketCapApi");
         builder.Services.Configure<CoinMarketCapOptions>(coinMarketCapConfiguration);
