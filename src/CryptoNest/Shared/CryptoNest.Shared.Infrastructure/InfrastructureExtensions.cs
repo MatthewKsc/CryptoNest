@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using CryptoNest.Shared.Infrastructure.CoinMarketCap;
 using CryptoNest.Shared.Infrastructure.Events;
+using CryptoNest.Shared.Infrastructure.Messaging;
 using CryptoNest.Shared.Infrastructure.Modules;
 using CryptoNest.Shared.Infrastructure.SqlServer;
 using Microsoft.AspNetCore.Builder;
@@ -25,8 +26,9 @@ internal static class InfrastructureExtensions
     {
         services.AddCoinMarketCap();
         services.AddEvents(assemblies);
-        
         services.AddModuleRequests(assemblies);
+        services.AddMessaging();
+
         return services;
     }
 
