@@ -1,8 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using CryptoNest.Shared.Infrastructure.CoinMarketCap;
+using CryptoNest.Shared.Infrastructure.Events;
 using CryptoNest.Shared.Infrastructure.SqlServer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly:InternalsVisibleTo("CryptoNest.Bootstrapper")]
@@ -17,11 +19,11 @@ internal static class InfrastructureExtensions
 
         return builder;
     }
-    
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, List<Assembly> assemblies)
     {
         services.AddCoinMarketCap();
+        services.AddEvents(assemblies);
         
         return services;
     }
