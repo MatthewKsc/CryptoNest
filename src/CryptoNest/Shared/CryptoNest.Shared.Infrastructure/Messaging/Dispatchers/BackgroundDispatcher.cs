@@ -30,7 +30,6 @@ internal sealed class BackgroundDispatcher : BackgroundService
             }
             catch (Exception exception)
             {
-                //
                 Console.WriteLine(exception.Message);
             }
         }
