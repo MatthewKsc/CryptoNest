@@ -11,9 +11,9 @@ internal static class ModuleInitializer
 {
     private static IReadOnlyCollection<IModule> modules;
 
-    public static WebApplicationBuilder RegisterModules(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder RegisterModules(this WebApplicationBuilder builder, IEnumerable<Assembly> assemblies)
     {
-        Initialize(builder);
+        modules = ModuleLoader.LoadModules(assemblies);
 
         foreach (IModule module in modules)
         {
@@ -33,11 +33,5 @@ internal static class ModuleInitializer
         }
 
         return app;
-    }
-
-    private static void Initialize(WebApplicationBuilder builder)
-    {
-        List<Assembly> assemblies = ModuleLoader.LoadAssemblies(builder.Configuration);
-        modules = ModuleLoader.LoadModules(assemblies);
     }
 }

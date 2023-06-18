@@ -1,4 +1,6 @@
-﻿using CryptoNest.Bootstrapper.Modules;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using CryptoNest.Bootstrapper.Modules;
 using CryptoNest.Shared.Infrastructure;
 using CryptoNest.Shared.Infrastructure.Modules;
 using Microsoft.AspNetCore.Builder;
@@ -8,8 +10,10 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args)
 
 builder.ConfigureInfrastructure();
 
-builder.RegisterModules();
-builder.Services.AddInfrastructure();
+List<Assembly> assemblies = ModuleLoader.LoadAssemblies(builder.Configuration);
+
+builder.RegisterModules(assemblies);
+builder.Services.AddInfrastructure(assemblies);
 
 WebApplication app = builder.Build();
 

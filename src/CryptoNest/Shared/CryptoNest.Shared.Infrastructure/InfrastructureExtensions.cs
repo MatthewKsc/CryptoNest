@@ -19,6 +19,7 @@ internal static class InfrastructureExtensions
     }
     
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, List<Assembly> assemblies)
     {
         services.AddCoinMarketCap();
         
