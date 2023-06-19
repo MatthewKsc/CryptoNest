@@ -26,7 +26,7 @@ internal sealed class BackgroundDispatcher : BackgroundService
         {
             try
             {
-                await moduleClient.PublishAsync(messageChannel);
+                await moduleClient.PublishAsync(message);
             }
             catch (Exception exception)
             {

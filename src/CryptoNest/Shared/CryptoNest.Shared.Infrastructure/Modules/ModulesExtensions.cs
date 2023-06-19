@@ -55,7 +55,7 @@ public static class ModulesExtensions
             {
                 moduleRegistry.AddBroadcastAction(eventType, @event => 
                     (Task) eventDispatcherType.GetMethod(nameof(eventDispatcher.PublishAsync))
-                        ?.MakeGenericMethod(eventTypes)
+                        ?.MakeGenericMethod(eventType)
                         .Invoke(eventDispatcher, new []{ @event })
                     );
             }
