@@ -65,7 +65,7 @@ internal class CryptoInfoSync : BackgroundService
                     cryptoCurrencies.Add(cryptoCurrency);
                 }
 
-                await Task.Delay(10000, stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(cmcOptions.BackgroundServiceIntervalMinutes), stoppingToken);
             }
             catch (Exception exception)
             {

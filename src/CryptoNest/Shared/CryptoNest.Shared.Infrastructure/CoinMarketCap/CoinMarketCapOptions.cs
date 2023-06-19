@@ -7,4 +7,5 @@ internal class CoinMarketCapOptions
     public string ApiEndpoint { get; set; }
     public int ListingLimit { get; set; }
     public string SortBy { get; set; }
+    public int BackgroundServiceIntervalMinutes { get; set; }
 }
