@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using CryptoNest.Shared.Abstractions.Messaging;
+using CryptoNest.Shared.Infrastructure.Events;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
@@ -15,11 +18,13 @@ internal class CryptoInfoSync : BackgroundService
 {
     private readonly HttpClient httpClient;
     private readonly CoinMarketCapOptions cmcOptions;
+    private readonly IMessageBroker messageBroker;
 
-    public CryptoInfoSync(HttpClient httpClient, IOptions<CoinMarketCapOptions> cmcOptions)
+    public CryptoInfoSync(HttpClient httpClient, IOptions<CoinMarketCapOptions> cmcOptions, IMessageBroker messageBroker)
     {
         this.httpClient = httpClient;
         this.cmcOptions = cmcOptions.Value;
+        this.messageBroker = messageBroker;
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -64,7 +69,18 @@ internal class CryptoInfoSync : BackgroundService
                     
                     cryptoCurrencies.Add(cryptoCurrency);
                 }
+                
+                List<CryptoCurrencyFetched> cryptocurrenciesFetched = cryptoCurrencies
+                    .Select(currency => new CryptoCurrencyFetched(
+                        currency.Name,
+                        currency.Symbol,
+                        currency.Slug,
+                        currency.Cmc_rank,
+                        currency.Price))
+                    .ToList();
 
+                await messageBroker.PublishAsync(new CryptoCurrenciesFetched(cryptocurrenciesFetched));
+                
                 await Task.Delay(TimeSpan.FromMinutes(cmcOptions.BackgroundServiceIntervalMinutes), stoppingToken);
             }
             catch (Exception exception)
