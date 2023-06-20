@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\CryptoNest.Shared.Infrastructure\CryptoNest.Shared.Infrastructure.csproj" />
       <ProjectReference Include="..\CryptoNest.Modules.CryptoListing.Application\CryptoNest.Modules.CryptoListing.Application.csproj" />
     </ItemGroup>
 
