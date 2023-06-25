@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\CryptoNest.Shared.Abstractions\CryptoNest.Shared.Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>
