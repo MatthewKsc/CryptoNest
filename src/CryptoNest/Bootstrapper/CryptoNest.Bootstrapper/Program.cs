@@ -20,6 +20,7 @@ WebApplication app = builder.Build();
 app.UseInfrastructure();
 app.UseModules(app.Logger);
 
-app.MapGet("/", () => "Hello World!");
+app.MapControllers();
+app.MapGet("/", () => "Crypto Nest API!");
 
 app.Run();
