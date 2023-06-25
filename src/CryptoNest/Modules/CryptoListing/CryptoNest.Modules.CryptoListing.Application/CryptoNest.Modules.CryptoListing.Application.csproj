@@ -8,4 +8,8 @@
       <ProjectReference Include="..\CryptoNest.Modules.CryptoListing.Domain\CryptoNest.Modules.CryptoListing.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Mappings\" />
+    </ItemGroup>
+
 </Project>
