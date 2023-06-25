@@ -16,13 +16,13 @@ public class CryptoCurrencyArchiveConfiguration : IEntityTypeConfiguration<Crypt
 
         builder.Property(currencyArchive => currencyArchive.OldMarketPrice)
             .IsRequired()
-            .HasColumnType("decimal(18,20)");
+            .HasColumnType("decimal(38,19)");
+        
+        builder.Property(currencyArchive => currencyArchive.Symbol)
+            .IsRequired();
         
         builder.Property(b => b.TimeOfRecord)
             .IsRequired()
             .HasColumnType("datetime2(7)");
-
-        builder.HasIndex(currencyArchive => currencyArchive.Symbol)
-            .IsUnique();
     }
 }

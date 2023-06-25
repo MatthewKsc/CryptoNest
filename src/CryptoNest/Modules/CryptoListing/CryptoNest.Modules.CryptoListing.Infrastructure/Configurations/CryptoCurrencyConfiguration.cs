@@ -16,7 +16,7 @@ public class CryptoCurrencyConfiguration : IEntityTypeConfiguration<CryptoCurren
 
         builder.Property(currencyArchive => currencyArchive.MarketPrice)
             .IsRequired()
-            .HasColumnType("decimal(18,20)");
+            .HasColumnType("decimal(38,19)");
         
         builder.Property(b => b.TimeOfRecord)
             .IsRequired()
