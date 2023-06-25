@@ -11,7 +11,7 @@ public static class InfrastructureExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) =>
         services
+            .AddSqlServerDbContext<CryptoListingDbContext>(configuration)
             .AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>()
-            .AddScoped<ICryptoCurrencyArchiveRepository, CryptoCurrencyArchiveRepository>()
-            .AddSqlServerDbContext<CryptoListingDbContext>(configuration);
+            .AddScoped<ICryptoCurrencyArchiveRepository, CryptoCurrencyArchiveRepository>();
 }
