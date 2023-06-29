@@ -37,4 +37,6 @@ internal sealed class CryptoCurrencyRepository : ICryptoCurrencyRepository
         await this.currencies.AddRangeAsync(currencies);
         await dbContext.SaveChangesAsync();
     }
+
+    public async Task DeleteAllDataAsync() => await currencies.ExecuteDeleteAsync();
 }
