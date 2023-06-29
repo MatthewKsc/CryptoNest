@@ -9,4 +9,5 @@ public interface ICryptoCurrencyRepository
     Task<IEnumerable<CryptoCurrency>> GetAllAsync();
     Task AddAsync(CryptoCurrency currency);
     Task AddRangeAsync(IEnumerable<CryptoCurrency> currencies);
+    Task DeleteAllDataAsync();
 }
