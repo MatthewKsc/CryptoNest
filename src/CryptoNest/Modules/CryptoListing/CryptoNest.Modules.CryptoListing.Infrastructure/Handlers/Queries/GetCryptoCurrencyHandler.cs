@@ -22,12 +22,17 @@ internal sealed class GetCryptoCurrencyHandler : IQueryHandler<GetCryptoCurrency
     {
         if (string.IsNullOrWhiteSpace(query.Symbol))
         {
-            throw new GetCryptoCurrencyException("Crypto currency symbol is not provided");
+            throw new CryptoCurrencySymbolEmptyException();
         }
 
         CryptoCurrency cryptoCurrency = await cryptoCurrencies
             .SingleOrDefaultAsync(currency => currency.Symbol == query.Symbol);
 
+        if (cryptoCurrency is null)
+        {
+            return null;
+        }
+        
         return new CryptoCurrencyDto
         {
             CurrencyName = cryptoCurrency.CurrencyName,

@@ -25,12 +25,12 @@ internal sealed class GetCryptoCurrencyArchiveHandler : IQueryHandler<GetCryptoC
     {
         if (string.IsNullOrWhiteSpace(query.Symbol)) 
         {
-            throw new GetCryptoCurrencyArchiveException("Crypto currency archive symbol is not provided");
+            throw new CryptoCurrencySymbolEmptyException();
         }
 
         if (query.PriceHistoricalEndDate is null || query.PriceHistoricalEndDate.Value.Date > DateTime.UtcNow.Date)
         {
-            throw new GetCryptoCurrencyArchiveException("Crypto currency archive historical price end date is invalid");
+            throw new CryptoCurrencyArchiveInvalidData(query.Symbol);
         }
 
         CryptoCurrencyArchive[] archives = await cryptoCurrencyArchives
