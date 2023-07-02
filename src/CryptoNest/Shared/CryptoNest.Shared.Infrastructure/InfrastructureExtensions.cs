@@ -9,6 +9,7 @@ using CryptoNest.Shared.Infrastructure.Events;
 using CryptoNest.Shared.Infrastructure.Messaging;
 using CryptoNest.Shared.Infrastructure.Modules;
 using CryptoNest.Shared.Infrastructure.Queries;
+using CryptoNest.Shared.Infrastructure.Services;
 using CryptoNest.Shared.Infrastructure.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -32,6 +33,7 @@ internal static class InfrastructureExtensions
     {
         List<string> disabledModules = GetDisabledModules(services);
         
+        services.AddHostedService<AppInitializer>();
         services.AddCoinMarketCap();
         services.AddQueries(assemblies);
         services.AddEvents(assemblies);
