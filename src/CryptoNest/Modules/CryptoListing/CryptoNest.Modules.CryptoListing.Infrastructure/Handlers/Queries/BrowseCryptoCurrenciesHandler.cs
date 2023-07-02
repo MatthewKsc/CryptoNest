@@ -26,7 +26,7 @@ internal sealed class BrowseCryptoCurrenciesHandler : IQueryHandler<BrowseCrypto
     {
         if (string.IsNullOrWhiteSpace(query.SortBy) || typeof(CryptoCurrency).GetProperty(query.SortBy) is null)
         {
-            throw new BrowseCryptoCurrenciesException($"SortBy data is not provided");
+            throw new BrowseCryptoCurrenciesSortByEmptyException();
         }
 
         int numberOfItemToSkip = GetItemsToSkip(query);
