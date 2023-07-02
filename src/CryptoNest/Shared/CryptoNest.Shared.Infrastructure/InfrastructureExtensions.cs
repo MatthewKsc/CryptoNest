@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using CryptoNest.Shared.Infrastructure.Api;
 using CryptoNest.Shared.Infrastructure.CoinMarketCap;
 using CryptoNest.Shared.Infrastructure.Events;
+using CryptoNest.Shared.Infrastructure.Exceptions;
 using CryptoNest.Shared.Infrastructure.Messaging;
 using CryptoNest.Shared.Infrastructure.Modules;
 using CryptoNest.Shared.Infrastructure.Queries;
@@ -34,6 +35,7 @@ internal static class InfrastructureExtensions
         List<string> disabledModules = GetDisabledModules(services);
         
         services.AddHostedService<AppInitializer>();
+        services.AddErrorHandling();
         services.AddCoinMarketCap();
         services.AddQueries(assemblies);
         services.AddEvents(assemblies);
@@ -66,6 +68,8 @@ internal static class InfrastructureExtensions
 
     public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
     {
+        app.UseErrorHandling();
+        
         return app;
     }
 
