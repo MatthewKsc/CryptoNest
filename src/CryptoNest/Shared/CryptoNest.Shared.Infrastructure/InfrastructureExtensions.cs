@@ -7,6 +7,7 @@ using CryptoNest.Shared.Infrastructure.Api;
 using CryptoNest.Shared.Infrastructure.CoinMarketCap;
 using CryptoNest.Shared.Infrastructure.Events;
 using CryptoNest.Shared.Infrastructure.Exceptions;
+using CryptoNest.Shared.Infrastructure.Logger;
 using CryptoNest.Shared.Infrastructure.Messaging;
 using CryptoNest.Shared.Infrastructure.Modules;
 using CryptoNest.Shared.Infrastructure.Queries;
@@ -24,6 +25,7 @@ internal static class InfrastructureExtensions
 {
     public static WebApplicationBuilder ConfigureInfrastructure(this WebApplicationBuilder builder)
     {
+        builder.AddNlogConfiguration();
         builder.AddCoinMarketCapConfiguration();
         builder.AddSqlServerConfiguration();
 

@@ -7,9 +7,11 @@ namespace CryptoNest.Shared.Infrastructure.CoinMarketCap;
 
 internal static class CoinMarketCapExtensions
 {
+    private const string CoinMarketCapSectionName = "CoinMarketCapApi";
+    
     internal static WebApplicationBuilder AddCoinMarketCapConfiguration(this WebApplicationBuilder builder)
     {
-        IConfiguration coinMarketCapConfiguration = builder.Configuration.GetSection("CoinMarketCapApi");
+        IConfiguration coinMarketCapConfiguration = builder.Configuration.GetSection(CoinMarketCapSectionName);
         builder.Services.Configure<CoinMarketCapOptions>(coinMarketCapConfiguration);
 
         return builder;
