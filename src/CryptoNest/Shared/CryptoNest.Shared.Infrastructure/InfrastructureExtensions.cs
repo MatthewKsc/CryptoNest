@@ -65,6 +65,8 @@ internal static class InfrastructureExtensions
                 manager.FeatureProviders.Add(new InternalControllerFeatureProvider());
             });
 
+        services.AddAutoMapper(assemblies);
+
         return services;
     }
 

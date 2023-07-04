@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CryptoNest.Modules.CryptoListing.Application.DTO;
 using CryptoNest.Modules.CryptoListing.Application.Exceptions;
 using CryptoNest.Modules.CryptoListing.Application.Queries;
@@ -14,10 +15,12 @@ namespace CryptoNest.Modules.CryptoListing.Infrastructure.Handlers.Queries;
 
 internal sealed class GetCryptoCurrencyArchiveHandler : IQueryHandler<GetCryptoCurrencyArchive, CryptoCurrencyArchiveDto>
 {
+    private readonly IMapper mapper;
     private readonly DbSet<CryptoCurrencyArchive> cryptoCurrencyArchives;
 
-    public GetCryptoCurrencyArchiveHandler(CryptoListingDbContext dbContext)
+    public GetCryptoCurrencyArchiveHandler(IMapper mapper, CryptoListingDbContext dbContext)
     {
+        this.mapper = mapper;
         this.cryptoCurrencyArchives = dbContext.CryptoCurrencyArchives;
     }
     
@@ -46,14 +49,9 @@ internal sealed class GetCryptoCurrencyArchiveHandler : IQueryHandler<GetCryptoC
         Dictionary<DateTime, decimal> dateToPriceAscending = archives
             .ToDictionary(archive => archive.TimeOfRecord, archive => archive.OldMarketPrice);
 
-        CryptoCurrencyArchive latestCryptoCurrencyArchive = archives.First();
+        CryptoCurrencyArchiveDto latestCryptoCurrencyArchive = mapper.Map<CryptoCurrencyArchiveDto>(archives.First());
+        latestCryptoCurrencyArchive.MarketPriceData = dateToPriceAscending;
 
-        return new CryptoCurrencyArchiveDto
-        {
-            CurrencyName = latestCryptoCurrencyArchive.CurrencyName,
-            Symbol = latestCryptoCurrencyArchive.Symbol,
-            Slug = latestCryptoCurrencyArchive.Slug,
-            MarketPriceData = dateToPriceAscending
-        };
+        return latestCryptoCurrencyArchive;
     }
 }
