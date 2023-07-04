@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CryptoNest.Shared.Infrastructure.CoinMarketCap;
 
+// TODO: Move to separate module
 internal class CryptoInfoSync : BackgroundService
 {
     private readonly HttpClient httpClient;
