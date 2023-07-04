@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using CryptoNest.Modules.CryptoListing.Application.DTO;
 using CryptoNest.Modules.CryptoListing.Application.Exceptions;
 using CryptoNest.Modules.CryptoListing.Application.Queries;
@@ -11,10 +12,12 @@ namespace CryptoNest.Modules.CryptoListing.Infrastructure.Handlers.Queries;
 
 internal sealed class GetCryptoCurrencyHandler : IQueryHandler<GetCryptoCurrency, CryptoCurrencyDto>
 {
+    private readonly IMapper mapper;
     private readonly DbSet<CryptoCurrency> cryptoCurrencies;
 
-    public GetCryptoCurrencyHandler(CryptoListingDbContext dbContext)
+    public GetCryptoCurrencyHandler(IMapper mapper, CryptoListingDbContext dbContext)
     {
+        this.mapper = mapper;
         this.cryptoCurrencies = dbContext.CryptoCurrencies;
     }
     
@@ -32,15 +35,7 @@ internal sealed class GetCryptoCurrencyHandler : IQueryHandler<GetCryptoCurrency
         {
             return null;
         }
-        
-        return new CryptoCurrencyDto
-        {
-            CurrencyName = cryptoCurrency.CurrencyName,
-            Symbol = cryptoCurrency.Symbol,
-            Slug = cryptoCurrency.Slug,
-            MarketRank = cryptoCurrency.MarketRank,
-            MarketPrice = cryptoCurrency.MarketPrice,
-            TimeOfRecord = cryptoCurrency.TimeOfRecord,
-        };
+
+        return mapper.Map<CryptoCurrencyDto>(cryptoCurrency);
     }
 }

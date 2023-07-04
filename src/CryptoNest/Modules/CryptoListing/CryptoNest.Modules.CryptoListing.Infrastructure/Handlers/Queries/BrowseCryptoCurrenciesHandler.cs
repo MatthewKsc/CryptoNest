@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using AutoMapper;
 using CryptoNest.Modules.CryptoListing.Application.DTO;
 using CryptoNest.Modules.CryptoListing.Application.Exceptions;
 using CryptoNest.Modules.CryptoListing.Application.Queries;
@@ -15,10 +16,12 @@ namespace CryptoNest.Modules.CryptoListing.Infrastructure.Handlers.Queries;
 internal sealed class BrowseCryptoCurrenciesHandler : IQueryHandler<BrowseCryptoCurrencies, IEnumerable<CryptoCurrencyDto>>
 {
     private const string DynamicLinqDescendingExpression = "descending";
+    private readonly IMapper mapper;
     private readonly DbSet<CryptoCurrency> cryptoCurrencies;
 
-    public BrowseCryptoCurrenciesHandler(CryptoListingDbContext dbContext)
+    public BrowseCryptoCurrenciesHandler(IMapper mapper, CryptoListingDbContext dbContext)
     {
+        this.mapper = mapper;
         this.cryptoCurrencies = dbContext.CryptoCurrencies;
     }
     
@@ -38,15 +41,7 @@ internal sealed class BrowseCryptoCurrenciesHandler : IQueryHandler<BrowseCrypto
         return await orderedQueryable
             .Skip(numberOfItemToSkip)
             .Take(query.PageSize)
-            .Select(cryptoCurrency => new CryptoCurrencyDto
-            {
-                CurrencyName = cryptoCurrency.CurrencyName,
-                Symbol = cryptoCurrency.Symbol,
-                Slug = cryptoCurrency.Slug,
-                MarketRank = cryptoCurrency.MarketRank,
-                MarketPrice = cryptoCurrency.MarketPrice,
-                TimeOfRecord = cryptoCurrency.TimeOfRecord
-            })
+            .Select(cryptoCurrency => mapper.Map<CryptoCurrencyDto>(cryptoCurrency))
             .ToListAsync();
     }
 
