@@ -5,17 +5,19 @@ using CryptoNest.Shared.Abstractions.Messaging;
 using CryptoNest.Shared.Abstractions.Modules;
 using CryptoNest.Shared.Infrastructure.Messaging.Channels;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace CryptoNest.Shared.Infrastructure.Messaging.Dispatchers;
 
 internal sealed class BackgroundDispatcher : BackgroundService
 {
-    //TODO Add logger in up coming PR
+    private readonly ILogger<BackgroundDispatcher> logger;
     private readonly IMessageChannel messageChannel;
     private readonly IModuleClient moduleClient;
 
-    public BackgroundDispatcher(IMessageChannel messageChannel, IModuleClient moduleClient)
+    public BackgroundDispatcher(ILogger<BackgroundDispatcher> logger, IMessageChannel messageChannel, IModuleClient moduleClient)
     {
+        this.logger = logger;
         this.messageChannel = messageChannel;
         this.moduleClient = moduleClient;
     }
@@ -30,7 +32,7 @@ internal sealed class BackgroundDispatcher : BackgroundService
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
+                logger.LogError(exception, "Exception while publishing message: {exMsg}", exception.Message);
             }
         }
     }

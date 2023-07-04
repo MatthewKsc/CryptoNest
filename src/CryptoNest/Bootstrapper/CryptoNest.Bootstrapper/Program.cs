@@ -31,10 +31,10 @@ try
 }
 catch (Exception exception)
 {
-    Logger logger = NLog.LogManager.GetCurrentClassLogger();
+    Logger logger = LogManager.GetCurrentClassLogger();
     logger.Error(exception, "Exception occured while starting application");
 }
 finally
 {
-    NLog.LogManager.Shutdown();
+    LogManager.Shutdown();
 }

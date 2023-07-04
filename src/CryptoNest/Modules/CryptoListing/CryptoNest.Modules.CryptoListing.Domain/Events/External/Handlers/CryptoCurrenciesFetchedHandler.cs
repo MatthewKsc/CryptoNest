@@ -1,18 +1,22 @@
 ﻿using CryptoNest.Modules.CryptoListing.Domain.Entities;
 using CryptoNest.Modules.CryptoListing.Domain.Repositories;
 using CryptoNest.Shared.Abstractions.Events;
+using Microsoft.Extensions.Logging;
 
 namespace CryptoNest.Modules.CryptoListing.Domain.Events.External.Handlers;
 
 internal sealed class CryptoCurrenciesFetchedHandler : IIntegrationEventHandler<CryptoCurrenciesFetched>
 {
+    private readonly ILogger<CryptoCurrenciesFetched> logger;
     private readonly ICryptoCurrencyRepository cryptoCurrencyRepository;
     private readonly ICryptoCurrencyArchiveRepository cryptoCurrencyArchiveRepository;
 
     public CryptoCurrenciesFetchedHandler(
+        ILogger<CryptoCurrenciesFetched> logger,
         ICryptoCurrencyRepository cryptoCurrencyRepository,
         ICryptoCurrencyArchiveRepository cryptoCurrencyArchiveRepository)
     {
+        this.logger = logger;
         this.cryptoCurrencyRepository = cryptoCurrencyRepository;
         this.cryptoCurrencyArchiveRepository = cryptoCurrencyArchiveRepository;
     }
@@ -23,7 +27,7 @@ internal sealed class CryptoCurrenciesFetchedHandler : IIntegrationEventHandler<
         {
             return;
         }
-
+        
         IReadOnlyCollection<CryptoCurrency> cryptoCurrencies = @event.CryptoCurrencies
             .Where(currency => !string.IsNullOrWhiteSpace(currency.Symbol) && currency.Price > 0)
             .Select(currency => new CryptoCurrency()
@@ -49,10 +53,12 @@ internal sealed class CryptoCurrenciesFetchedHandler : IIntegrationEventHandler<
                 TimeOfRecord = currencyToArchive.TimeOfRecord
             })
             .ToArray();
-
+        
         await cryptoCurrencyArchiveRepository.AddRangeAsync(cryptoCurrencyArchives);
+        logger.LogInformation("Archived crypto currencies: {count}", cryptoCurrencyArchives.Count);
         
         await cryptoCurrencyRepository.DeleteAllDataAsync();
         await cryptoCurrencyRepository.AddRangeAsync(cryptoCurrencies);
+        logger.LogInformation("Re-uploaded crypto currencies: {count}", cryptoCurrencies.Count);
     }
 }

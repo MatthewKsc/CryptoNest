@@ -9,6 +9,7 @@ using System.Web;
 using CryptoNest.Shared.Abstractions.Messaging;
 using CryptoNest.Shared.Infrastructure.Events;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
@@ -17,12 +18,18 @@ namespace CryptoNest.Shared.Infrastructure.CoinMarketCap;
 internal class CryptoInfoSync : BackgroundService
 {
     private readonly HttpClient httpClient;
+    private readonly ILogger<CryptoInfoSync> logger;
     private readonly CoinMarketCapOptions cmcOptions;
     private readonly IMessageBroker messageBroker;
 
-    public CryptoInfoSync(HttpClient httpClient, IOptions<CoinMarketCapOptions> cmcOptions, IMessageBroker messageBroker)
+    public CryptoInfoSync(
+        HttpClient httpClient,
+        ILogger<CryptoInfoSync> logger,
+        IOptions<CoinMarketCapOptions> cmcOptions,
+        IMessageBroker messageBroker)
     {
         this.httpClient = httpClient;
+        this.logger = logger;
         this.cmcOptions = cmcOptions.Value;
         this.messageBroker = messageBroker;
     }
@@ -31,6 +38,8 @@ internal class CryptoInfoSync : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
+            logger.LogInformation("Started fetching crypto currencies job.....");
+            
             try
             {
                 UriBuilder uriBuilder = new($"{cmcOptions.ApiBaseUrl}{cmcOptions.ApiEndpoint}");
@@ -80,14 +89,13 @@ internal class CryptoInfoSync : BackgroundService
                     .ToList();
 
                 await messageBroker.PublishAsync(new CryptoCurrenciesFetched(cryptocurrenciesFetched));
+                logger.LogInformation("End of fetching crypto currencies job, fetched: {count}", cryptocurrenciesFetched.Count);
                 
                 await Task.Delay(TimeSpan.FromMinutes(cmcOptions.BackgroundServiceIntervalMinutes), stoppingToken);
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
-
-                throw;
+                logger.LogError(exception, "Exception Occured while fetching crypto currencies from CoinMarketCap");
             }
         }
     }
