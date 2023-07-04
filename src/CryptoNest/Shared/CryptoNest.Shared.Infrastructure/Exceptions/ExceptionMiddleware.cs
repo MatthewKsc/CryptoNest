@@ -3,15 +3,18 @@ using System.Net;
 using System.Threading.Tasks;
 using CryptoNest.Shared.Abstractions.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace CryptoNest.Shared.Infrastructure.Exceptions;
 
 internal class ExceptionMiddleware : IMiddleware
 {
+    private readonly ILogger<ExceptionMiddleware> logger;
     private readonly IExceptionCompositionRoot exceptionCompositionRoot;
 
-    public ExceptionMiddleware(IExceptionCompositionRoot exceptionCompositionRoot)
+    public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger, IExceptionCompositionRoot exceptionCompositionRoot)
     {
+        this.logger = logger;
         this.exceptionCompositionRoot = exceptionCompositionRoot;
     }
     
@@ -23,7 +26,7 @@ internal class ExceptionMiddleware : IMiddleware
         }
         catch (Exception exception)
         {
-            //add logger in next Tasks
+            logger.LogError(exception, exception.Message);
             await HandleErrorAsync(context, exception);
         }
     }
