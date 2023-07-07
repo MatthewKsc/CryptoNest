@@ -1,0 +1,67 @@
+@import '../../../shared-styles/theme';
+@import "../../../shared-styles/navbar/navbar-theme";
+
+.navbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: max-content;
+  padding: 0.375rem;
+  background: $background-main-theme-color;
+  color: $navbar-default-item;
+
+  .left-section {
+    @include center-items;
+
+    .section-links {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+  }
+
+  .right-section {
+    @include center-items;
+  }
+
+  .nav-item-none-selectable {
+    @include nav-bar-none-selectable-item;
+
+    &.title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .nav-item {
+    @include nav-bar-selectable-item;
+    transition: background 0.3s ease;
+
+    &.active {
+      background: $navbar-selected-item;
+    }
+  }
+
+  .search-item {
+    color: $navbar-default-item;
+    background: inherit;
+    border: 1px solid $navbar-default-item;
+    border-radius: 1rem;
+    line-height: 2rem;
+    font-size: 1rem;
+    padding-left: 1rem;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+.nav-item:hover {
+  background: $navbar-hover-item;
+
+  &.active {
+    background: $navbar-hover-item !important;
+  }
+}
+
+.search-item:focus {
+  box-shadow: 0 0 1rem $navbar-default-item;
+}
