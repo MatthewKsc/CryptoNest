@@ -8,7 +8,7 @@ namespace CryptoNest.Modules.CryptoListing.Api;
 
 internal class CryptoListingModule : IModule
 {
-    public const string BasePath = "crypto-listing-module";
+    public const string BasePath = "api/crypto-listing-module";
 
     public string Name { get; } = "CryptoListing";
     public string Path => BasePath;

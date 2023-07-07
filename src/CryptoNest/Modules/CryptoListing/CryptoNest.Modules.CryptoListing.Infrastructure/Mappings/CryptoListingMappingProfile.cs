@@ -20,6 +20,7 @@ internal sealed class CryptoListingMappingProfile : Profile
             .ForMember(dest => dest.TimeOfRecord, opt => opt.MapFrom(src => DateTime.UtcNow));
 
         CreateMap<CryptoCurrency, CryptoCurrencyArchive>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.OldMarketPrice, opt => opt.MapFrom(src => src.MarketPrice));
     }
 }

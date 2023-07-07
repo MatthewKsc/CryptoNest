@@ -1,0 +1,20 @@
+<mat-toolbar class="navbar-wrapper">
+  <div class="left-section">
+    <img ngSrc="assets/logos/crypto-nest-main-icon.png" height="50" width="50" priority>
+    <div class="section-links">
+      <div class="nav-item-none-selectable title mx-3">CryptoNest</div>
+      <div class="nav-item" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Cryptocurrencies
+      </div>
+      <div class="nav-item" routerLink="/portfolio" routerLinkActive="active">Portfolio</div>
+      <div class="nav-item" routerLink="/watchlist" routerLinkActive="active">Watchlist</div>
+    </div>
+  </div>
+  <div class="right-section">
+    <div class="nav-item-none-selectable">{{ systemVersion() }}</div>
+    <div class="nav-item" routerLink="/user" routerLinkActive="active">Login</div>
+    <div class="nav-item" routerLink="/user" routerLinkActive="active">Register</div>
+    <input class="search-item mx-1" type="search" placeholder="Search...">
+    <img (click)="navigateToProjectGithub()" class="nav-item" ngSrc="assets/logos/github-icon.png" height="40" width="40">
+  </div>
+</mat-toolbar>

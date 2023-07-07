@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 [assembly:InternalsVisibleTo("CryptoNest.Bootstrapper")]
 namespace CryptoNest.Shared.Infrastructure;
@@ -70,11 +71,22 @@ internal static class InfrastructureExtensions
         return services;
     }
 
-    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
+    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, WebApplication app)
     {
-        app.UseErrorHandling();
+        builder.UseErrorHandling();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseCors(corsPolicyBuilder =>
+            {
+                corsPolicyBuilder.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true)
+                    .WithExposedHeaders("Content-Disposition");
+            });
+        }
         
-        return app;
+        return builder;
     }
 
     private static List<string> GetDisabledModules(IServiceCollection services)

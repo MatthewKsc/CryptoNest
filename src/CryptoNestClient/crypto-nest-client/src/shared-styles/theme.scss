@@ -1,0 +1,7 @@
+$background-main-theme-color: #7952bd;
+
+@mixin center-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
