@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using CryptoNest.Bootstrapper.Modules;
 using CryptoNest.Shared.Infrastructure;
+using CryptoNest.Shared.Infrastructure.Api;
 using CryptoNest.Shared.Infrastructure.Modules;
 using Microsoft.AspNetCore.Builder;
 using NLog;
@@ -21,11 +22,20 @@ try
 {
     WebApplication app = builder.Build();
 
-    app.UseInfrastructure();
+    app.UseInfrastructure(app);
     app.UseModules(app.Logger);
 
     app.MapControllers();
     app.MapGet("/", () => "Crypto Nest API!");
+    app.MapGet("api/system-information", () =>
+    {
+        string systemVersion = Assembly.GetExecutingAssembly()
+            .GetName()
+            .Version?
+            .ToString();
+
+        return new SystemInformation(systemVersion ?? "");
+    });
 
     app.Run();
 }
