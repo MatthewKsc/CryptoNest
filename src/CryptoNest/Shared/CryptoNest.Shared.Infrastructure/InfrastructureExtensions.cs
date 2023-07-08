@@ -71,9 +71,9 @@ internal static class InfrastructureExtensions
         return services;
     }
 
-    public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder builder, WebApplication app)
+    public static IApplicationBuilder UseInfrastructure(this WebApplication app)
     {
-        builder.UseErrorHandling();
+        app.UseErrorHandling();
 
         if (app.Environment.IsDevelopment())
         {
@@ -86,7 +86,7 @@ internal static class InfrastructureExtensions
             });
         }
         
-        return builder;
+        return app;
     }
 
     private static List<string> GetDisabledModules(IServiceCollection services)

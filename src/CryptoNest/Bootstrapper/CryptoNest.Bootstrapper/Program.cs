@@ -22,7 +22,7 @@ try
 {
     WebApplication app = builder.Build();
 
-    app.UseInfrastructure(app);
+    app.UseInfrastructure();
     app.UseModules(app.Logger);
 
     app.MapControllers();
