@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using CryptoNest.Modules.CryptoListing.Domain.Entities;
 using CryptoNest.Modules.CryptoListing.Domain.Repositories;
@@ -9,6 +11,8 @@ namespace CryptoNest.Modules.CryptoListing.Infrastructure.Repositories;
 
 internal sealed class CryptoCurrencyRepository : ICryptoCurrencyRepository
 {
+    private const string DynamicLinqDescendingExpression = "descending";
+    
     private readonly CryptoListingDbContext dbContext;
     private readonly DbSet<CryptoCurrency> currencies;
 
@@ -18,23 +22,31 @@ internal sealed class CryptoCurrencyRepository : ICryptoCurrencyRepository
         this.currencies = this.dbContext.CryptoCurrencies;
     }
 
-    public async Task<CryptoCurrency> GetByIdAsync(int id) =>
-        await currencies.SingleOrDefaultAsync(currency => currency.Id == id);
-
-    public async Task<CryptoCurrency> GetBySymbolAsync(string symbol) =>
-        await currencies.SingleOrDefaultAsync(currency => currency.Symbol == symbol);
+    public async Task<CryptoCurrency> GetBySymbolAsync(string symbol)
+        => await currencies.SingleOrDefaultAsync(currency => currency.Symbol == symbol);
 
     public async Task<IEnumerable<CryptoCurrency>> GetAllAsync() => await currencies.ToListAsync();
+    public async Task<long> GetAllCountAsync() => await currencies.LongCountAsync();
 
-    public async Task AddAsync(CryptoCurrency currency)
+    public async Task<IReadOnlyCollection<CryptoCurrency>> GetPaginatedDataAsync(
+        string orderBy,
+        bool isAscending,
+        int skipItems,
+        int takeItems)
     {
-        await currencies.AddAsync(currency);
-        await dbContext.SaveChangesAsync();
+        IOrderedQueryable<CryptoCurrency> orderedQueryable = isAscending
+            ? currencies.OrderBy(orderBy)
+            : currencies.OrderBy($"{orderBy} {DynamicLinqDescendingExpression}");
+        
+        return await orderedQueryable
+            .Skip(skipItems)
+            .Take(takeItems)
+            .ToArrayAsync();
     }
 
-    public async Task AddRangeAsync(IEnumerable<CryptoCurrency> currencies)
+    public async Task AddRangeAsync(IEnumerable<CryptoCurrency> currenciesToAdd)
     {
-        await this.currencies.AddRangeAsync(currencies);
+        await this.currencies.AddRangeAsync(currenciesToAdd);
         await dbContext.SaveChangesAsync();
     }
 
