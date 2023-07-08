@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CryptoNest.Modules.CryptoListing.Domain.Entities;
@@ -19,19 +20,11 @@ internal sealed class CryptoCurrencyArchiveRepository : ICryptoCurrencyArchiveRe
         this.currencyArchives = dbContext.CryptoCurrencyArchives;
     }
 
-    public async Task<CryptoCurrencyArchive> GetByIdAsync(int id) =>
-        await currencyArchives.SingleOrDefaultAsync(currency => currency.Id == id);
-
-    public async Task<CryptoCurrencyArchive> GetBySymbolAsync(string symbol) =>
-        await currencyArchives.SingleOrDefaultAsync(currency => currency.Symbol == symbol);
-
-    public async Task<IEnumerable<CryptoCurrencyArchive>> GetAllAsync() => await currencyArchives.ToListAsync();
-
-    public async Task AddAsync(CryptoCurrencyArchive currency)
-    {
-        await currencyArchives.AddAsync(currency);
-        await dbContext.SaveChangesAsync();
-    }
+    public async Task<IReadOnlyCollection<CryptoCurrencyArchive>> GetHistoricalCurrencyDataAsync(string symbol, DateTime priceHistoricalEndDate) 
+        => await currencyArchives
+            .Where(currency => currency.Symbol == symbol && currency.TimeOfRecord.Date <= priceHistoricalEndDate)
+            .OrderBy(archive => archive.TimeOfRecord)
+            .ToArrayAsync();
 
     public async Task AddRangeAsync(IEnumerable<CryptoCurrencyArchive> currencies)
     {
