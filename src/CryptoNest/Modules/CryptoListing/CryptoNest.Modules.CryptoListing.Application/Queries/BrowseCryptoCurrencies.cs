@@ -4,7 +4,7 @@ using CryptoNest.Shared.Abstractions.Queries;
 
 namespace CryptoNest.Modules.CryptoListing.Application.Queries;
 
-public class BrowseCryptoCurrencies : IQuery<IEnumerable<CryptoCurrencyDto>>
+public class BrowseCryptoCurrencies : IQuery<PageResult<CryptoCurrencyDto>>
 {
     public string SortBy { get; set; }
     public bool IsAscending { get; set; }

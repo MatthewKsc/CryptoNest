@@ -7,21 +7,20 @@ using CryptoNest.Modules.CryptoListing.Application.DTO;
 using CryptoNest.Modules.CryptoListing.Application.Exceptions;
 using CryptoNest.Modules.CryptoListing.Application.Queries;
 using CryptoNest.Modules.CryptoListing.Domain.Entities;
-using CryptoNest.Modules.CryptoListing.Infrastructure.Db;
+using CryptoNest.Modules.CryptoListing.Domain.Repositories;
 using CryptoNest.Shared.Abstractions.Queries;
-using Microsoft.EntityFrameworkCore;
 
 namespace CryptoNest.Modules.CryptoListing.Infrastructure.Handlers.Queries;
 
 internal sealed class GetCryptoCurrencyArchiveHandler : IQueryHandler<GetCryptoCurrencyArchive, CryptoCurrencyArchiveDto>
 {
     private readonly IMapper mapper;
-    private readonly DbSet<CryptoCurrencyArchive> cryptoCurrencyArchives;
+    private readonly ICryptoCurrencyArchiveRepository currencyArchiveRepository;
 
-    public GetCryptoCurrencyArchiveHandler(IMapper mapper, CryptoListingDbContext dbContext)
+    public GetCryptoCurrencyArchiveHandler(IMapper mapper, ICryptoCurrencyArchiveRepository currencyArchiveRepository)
     {
         this.mapper = mapper;
-        this.cryptoCurrencyArchives = dbContext.CryptoCurrencyArchives;
+        this.currencyArchiveRepository = currencyArchiveRepository;
     }
     
     public async Task<CryptoCurrencyArchiveDto> HandleAsync(GetCryptoCurrencyArchive query)
@@ -35,11 +34,9 @@ internal sealed class GetCryptoCurrencyArchiveHandler : IQueryHandler<GetCryptoC
         {
             throw new CryptoCurrencyArchiveInvalidData(query.Symbol);
         }
-
-        CryptoCurrencyArchive[] archives = await cryptoCurrencyArchives
-            .Where(currency => currency.Symbol == query.Symbol && currency.TimeOfRecord.Date <= DateTime.UtcNow.Date)
-            .OrderBy(archive => archive.TimeOfRecord)
-            .ToArrayAsync();
+        
+        IReadOnlyCollection<CryptoCurrencyArchive> archives = 
+            await currencyArchiveRepository.GetHistoricalCurrencyDataAsync(query.Symbol, query.PriceHistoricalEndDate.Value.Date);
 
         if (!archives.Any())
         {
@@ -49,7 +46,7 @@ internal sealed class GetCryptoCurrencyArchiveHandler : IQueryHandler<GetCryptoC
         Dictionary<DateTime, decimal> dateToPriceAscending = archives
             .ToDictionary(archive => archive.TimeOfRecord, archive => archive.OldMarketPrice);
 
-        CryptoCurrencyArchiveDto latestCryptoCurrencyArchive = mapper.Map<CryptoCurrencyArchiveDto>(archives.First());
+        var latestCryptoCurrencyArchive = mapper.Map<CryptoCurrencyArchiveDto>(archives.First());
         latestCryptoCurrencyArchive.MarketPriceData = dateToPriceAscending;
 
         return latestCryptoCurrencyArchive;

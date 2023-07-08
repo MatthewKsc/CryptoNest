@@ -1,31 +1,27 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using AutoMapper;
 using CryptoNest.Modules.CryptoListing.Application.DTO;
 using CryptoNest.Modules.CryptoListing.Application.Exceptions;
 using CryptoNest.Modules.CryptoListing.Application.Queries;
 using CryptoNest.Modules.CryptoListing.Domain.Entities;
-using CryptoNest.Modules.CryptoListing.Infrastructure.Db;
+using CryptoNest.Modules.CryptoListing.Domain.Repositories;
 using CryptoNest.Shared.Abstractions.Queries;
-using Microsoft.EntityFrameworkCore;
 
 namespace CryptoNest.Modules.CryptoListing.Infrastructure.Handlers.Queries;
 
-internal sealed class BrowseCryptoCurrenciesHandler : IQueryHandler<BrowseCryptoCurrencies, IEnumerable<CryptoCurrencyDto>>
+internal sealed class BrowseCryptoCurrenciesHandler : IQueryHandler<BrowseCryptoCurrencies, PageResult<CryptoCurrencyDto>>
 {
-    private const string DynamicLinqDescendingExpression = "descending";
     private readonly IMapper mapper;
-    private readonly DbSet<CryptoCurrency> cryptoCurrencies;
+    private readonly ICryptoCurrencyRepository currencyRepository;
 
-    public BrowseCryptoCurrenciesHandler(IMapper mapper, CryptoListingDbContext dbContext)
+    public BrowseCryptoCurrenciesHandler(IMapper mapper, ICryptoCurrencyRepository currencyRepository)
     {
         this.mapper = mapper;
-        this.cryptoCurrencies = dbContext.CryptoCurrencies;
+        this.currencyRepository = currencyRepository;
     }
     
-    public async Task<IEnumerable<CryptoCurrencyDto>> HandleAsync(BrowseCryptoCurrencies query)
+    public async Task<PageResult<CryptoCurrencyDto>> HandleAsync(BrowseCryptoCurrencies query)
     {
         if (string.IsNullOrWhiteSpace(query.SortBy) || typeof(CryptoCurrency).GetProperty(query.SortBy) is null)
         {
@@ -34,15 +30,16 @@ internal sealed class BrowseCryptoCurrenciesHandler : IQueryHandler<BrowseCrypto
 
         int numberOfItemToSkip = GetItemsToSkip(query);
 
-        IOrderedQueryable<CryptoCurrency> orderedQueryable = query.IsAscending
-            ? cryptoCurrencies.OrderBy(query.SortBy)
-            : cryptoCurrencies.OrderBy($"{query.SortBy} {DynamicLinqDescendingExpression}");
+        long countOfAllCurrencies = await currencyRepository.GetAllCountAsync();
         
-        return await orderedQueryable
-            .Skip(numberOfItemToSkip)
-            .Take(query.PageSize)
-            .Select(cryptoCurrency => mapper.Map<CryptoCurrencyDto>(cryptoCurrency))
-            .ToListAsync();
+        IReadOnlyCollection<CryptoCurrency> currencies = await currencyRepository
+            .GetPaginatedDataAsync(query.SortBy, query.IsAscending, numberOfItemToSkip, query.PageSize);
+
+        return new PageResult<CryptoCurrencyDto>(
+            mapper.Map<CryptoCurrencyDto[]>(currencies),
+            countOfAllCurrencies,
+            query.PageSize,
+            query.PageNumber);
     }
 
     private static int GetItemsToSkip(BrowseCryptoCurrencies query) 

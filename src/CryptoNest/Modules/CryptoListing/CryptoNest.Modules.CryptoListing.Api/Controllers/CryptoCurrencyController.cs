@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CryptoNest.Modules.CryptoListing.Application.DTO;
 using CryptoNest.Modules.CryptoListing.Application.Queries;
 using CryptoNest.Shared.Abstractions.Queries;
@@ -18,10 +17,10 @@ internal class CryptoCurrencyController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CryptoCurrencyDto>>> BrowseCryptoCurrenciesAsync(BrowseCryptoCurrencies browseCryptoCurrencies) =>
-        OkOrNotFound(await queryDispatcher.QueryAsync(browseCryptoCurrencies));
+    public async Task<ActionResult<PageResult<CryptoCurrencyDto>>> BrowseCryptoCurrenciesAsync(BrowseCryptoCurrencies browseCryptoCurrencies) 
+        => OkOrNotFound(await queryDispatcher.QueryAsync(browseCryptoCurrencies));
 
     [HttpGet("currency/{symbol}")]
-    public async Task<ActionResult<CryptoCurrencyDto>> GetCryptoCurrencyAsync(string symbol) =>
-        OkOrNotFound(await queryDispatcher.QueryAsync(new GetCryptoCurrency { Symbol = symbol }));
+    public async Task<ActionResult<CryptoCurrencyDto>> GetCryptoCurrencyAsync(string symbol) 
+        => OkOrNotFound(await queryDispatcher.QueryAsync(new GetCryptoCurrency { Symbol = symbol }));
 }
