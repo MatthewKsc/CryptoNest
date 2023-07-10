@@ -17,6 +17,6 @@ internal class CryptoCurrencyArchiveController : BaseController
     }
 
     [HttpGet("currency")]
-    public async Task<ActionResult<CryptoCurrencyArchiveDto>> GetCryptoCurrencyArchive(GetCryptoCurrencyArchive archive)
+    public async Task<ActionResult<CryptoCurrencyArchiveDto>> GetCryptoCurrencyArchive([FromQuery]GetCryptoCurrencyArchive archive)
         => OkOrNotFound(await queryDispatcher.QueryAsync(archive));
 }

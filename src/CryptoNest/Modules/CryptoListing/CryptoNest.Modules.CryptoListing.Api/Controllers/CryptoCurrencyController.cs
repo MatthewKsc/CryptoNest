@@ -17,7 +17,7 @@ internal class CryptoCurrencyController : BaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<PageResult<CryptoCurrencyDto>>> BrowseCryptoCurrenciesAsync(BrowseCryptoCurrencies browseCryptoCurrencies) 
+    public async Task<ActionResult<PageResult<CryptoCurrencyDto>>> BrowseCryptoCurrenciesAsync([FromQuery]BrowseCryptoCurrencies browseCryptoCurrencies) 
         => OkOrNotFound(await queryDispatcher.QueryAsync(browseCryptoCurrencies));
 
     [HttpGet("currency/{symbol}")]
