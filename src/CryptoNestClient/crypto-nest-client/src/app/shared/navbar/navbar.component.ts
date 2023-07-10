@@ -2,7 +2,7 @@ import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { SystemInformationService } from '../../core/system-information/system-information.service';
+import { SystemInformationService } from '../../core/services/system-information/system-information.service';
 
 @Component({
   selector: 'app-navbar',

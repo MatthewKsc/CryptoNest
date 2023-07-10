@@ -1,7 +1,9 @@
+import { APP_INITIALIZER, ErrorHandler, Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 import { PrependServiceUrlInterceptorService } from './interceptors/prepend-service-url-interceptor.service';
-import { APP_INITIALIZER, Provider } from '@angular/core';
-import { SystemInformationService } from './system-information/system-information.service';
+import { SystemInformationService } from './services/system-information/system-information.service';
+import { GlobalErrorHandlerService } from './services/errors/global-error-handler.service';
 
 export const coreProviders: Provider[] = [
   {
@@ -15,4 +17,8 @@ export const coreProviders: Provider[] = [
     useClass: PrependServiceUrlInterceptorService,
     multi: true
   },
+  {
+    provide: ErrorHandler,
+    useClass: GlobalErrorHandlerService
+  }
 ]

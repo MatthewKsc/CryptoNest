@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
 
 import { ISystemInformation } from './system-information.module';
-import { combineUrl } from '../url-combine';
-import { hostAddress } from '../host-address';
+import { combineUrl } from '../../url-combine';
+import { hostAddress } from '../../host-address';
 
 @Injectable({
   providedIn: 'root'
